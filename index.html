@@ -1,79 +1,175 @@
+import React, { useState } from "react";
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>V.E. BATIMENT</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: #f9fafb; color: #111827; line-height: 1.6; }
-    header, footer { background: #1f2937; color: white; text-align: center; padding: 30px; }
-    nav a { color: #fbbf24; margin: 0 12px; text-decoration: none; font-weight: 600; }
-    section { padding: 60px 20px; max-width: 1200px; margin: auto; text-align: center; }
-    h2 { color: #1f2937; margin-bottom: 20px; font-size: 2.4em; }
-    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .gallery img { width: 100%; border-radius: 8px; }
-    .contact-form input, .contact-form textarea {
-      width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px;
+// صفحة هبوط عربية RTL لمنتج "الخيط المائي لتنظيف الأسنان"
+// مع صورة رئيسية كبيرة جذابة أعلى الصفحة + باقي المحتوى كما هو
+
+export default function WaterFlossPremiumArabic() {
+  const year = new Date().getFullYear();
+  const [submitting, setSubmitting] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    city: "",
+    qty: "1",
+    address: "",
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const phoneOk = /^\+?[0-9]{9,15}$/.test(form.phone.replace(/\s|-/g, ""));
+    if (!phoneOk) {
+      alert("الرجاء إدخال رقم هاتف صالح");
+      return;
     }
-    iframe { width: 100%; height: 300px; border: 0; border-radius: 8px; margin-top: 20px; }
-  </style>
-</head>
-<body>
+    setSubmitting(true);
+    try {
+      await new Promise((r) => setTimeout(r, 800));
+      alert("تم استلام طلبك بنجاح!");
+      setForm({ name: "", phone: "", city: "", qty: "1", address: "" });
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
-<header>
-  <h1>V.E. BATIMENT</h1>
-  <nav>
-    <a href="#about">Présentation</a>
-    <a href="#services">Services</a>
-    <a href="#gallery">Galerie</a>
-    <a href="#contact">Contact</a>
-    <a href="#map">Adresse</a>
-  </nav>
-</header>
+  return (
+    <div dir="rtl" lang="ar" className="min-h-screen bg-white text-blue-900 font-serif">
+      {/* صورة رئيسية جذابة */}
+      <div className="w-full h-[500px] bg-cover bg-center" style={{
+        backgroundImage: "url('https://avatars.mds.yandex.net/i?id=a77ce945931bb48896187a5c0fa2c5d297f48bc675a9661d-12471733-images-thumbs&n=13')"
+      }}>
+        <div className="w-full h-full bg-blue-900/30 flex items-center justify-center">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-white text-center drop-shadow-lg">
+            الخيط المائي لتنظيف الأسنان — عناية فاخرة كل يوم
+          </h1>
+        </div>
+      </div>
 
-<section id="about">
-  <h2>Présentation</h2>
-  <p>Basée à Les Mureaux, V.E. BATIMENT est une entreprise spécialisée dans la maçonnerie générale et les gros travaux de construction. Grâce à une équipe qualifiée, nous réalisons des chantiers sur mesure en respectant les normes de qualité et de sécurité.</p>
-</section>
+      <header className="sticky top-0 z-40 border-b border-blue-100 bg-white/90 backdrop-blur">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <a href="#top" className="flex items-center gap-4">
+            <div aria-hidden className="w-12 h-12 rounded-full bg-blue-700 flex items-center justify-center text-white font-bold text-lg shadow">WF</div>
+            <div>
+              <p className="text-base font-semibold tracking-wide">الخيط المائي لتنظيف الأسنان</p>
+              <p className="text-blue-700 text-xs font-semibold">عناية فاخرة يومية</p>
+            </div>
+          </a>
+          <nav className="hidden sm:flex gap-4 items-center text-sm" aria-label="القائمة الرئيسية">
+            <a href="#features" className="text-blue-700 hover:text-blue-900">المميزات</a>
+            <a href="#how" className="text-blue-700 hover:text-blue-900">طريقة الاستخدام</a>
+            <a href="#order" className="px-4 py-2 bg-blue-700 text-white rounded-md shadow-lg hover:bg-blue-800">اطلب الآن</a>
+          </nav>
+        </div>
+      </header>
 
-<section id="services">
-  <h2>Nos Services</h2>
-  <p>Gros œuvre de bâtiment, travaux de maçonnerie, fondations, rénovation structurelle, et accompagnement personnalisé pour tous vos projets de construction.</p>
-</section>
+      <main id="top" className="max-w-6xl mx-auto px-6">
+        {/* Hero */}
+        <section className="grid lg:grid-cols-2 gap-12 items-center py-16">
+          <div>
+            <h2 className="text-5xl font-extrabold leading-tight text-blue-900">
+              امنح فمك العناية الفاخرة التي يستحقها
+            </h2>
+            <p className="mt-6 text-lg text-blue-700">
+              حوّل روتينك اليومي إلى تجربة فاخرة مع الخيط المائي لتنظيف الأسنان.
+            </p>
+            <ul className="mt-8 space-y-3 text-blue-700">
+              <li>• إعدادات ضغط قابلة للتعديل</li>
+              <li>• رأس دوّار 360°</li>
+              <li>• تصميم أنيق وفاخر</li>
+            </ul>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <a href="#order" className="px-6 py-3 bg-blue-700 text-white rounded-md shadow-lg hover:bg-blue-800">احجز جهازك الآن</a>
+              <a href="#features" className="px-6 py-3 border border-blue-300 rounded-md hover:bg-blue-50 text-blue-700">اكتشف المزيد</a>
+            </div>
+          </div>
+          <div className="relative">
+            <img
+              src="https://avatars.mds.yandex.net/i?id=a77ce945931bb48896187a5c0fa2c5d297f48bc675a9661d-12471733-images-thumbs&n=13"
+              alt="جهاز الخيط المائي"
+              className="rounded-2xl shadow-2xl"
+            />
+          </div>
+        </section>
 
-<section id="gallery">
-  <h2>Galerie</h2>
-  <div class="gallery">
-    <img src="https://images.unsplash.com/photo-1570126681032-3a7c41f13b0d?auto=format&fit=crop&w=800&q=80" alt="chantier 1">
-    <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=800&q=80" alt="chantier 2">
-    <img src="https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=800&q=80" alt="chantier 3">
-  </div>
-</section>
+        {/* Features */}
+        <section id="features" className="mt-16 bg-white rounded-2xl p-8 shadow-xl ring-1 ring-blue-100">
+          <h2 className="text-3xl font-semibold text-blue-900">لماذا تختار هذا الجهاز</h2>
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-blue-700">
+            <div className="space-y-3 text-center">
+              <img src="https://avatars.mds.yandex.net/i?id=1e82ea90138261baa66e2079e104854d29b478fc-8223286-images-thumbs&n=13" alt="تنظيف شامل" className="rounded-lg shadow mx-auto" />
+              <h3 className="font-semibold text-lg">تنظيف متكامل</h3>
+              <p>يصل إلى جميع زوايا الفم لإزالة بقايا الطعام.</p>
+            </div>
+            <div className="space-y-3 text-center">
+              <img src="https://avatars.mds.yandex.net/i?id=14c47cc648de72f605cc883cad6e6d1e0545a595-6503757-images-thumbs&n=13" alt="تصميم فاخر" className="rounded-lg shadow mx-auto" />
+              <h3 className="font-semibold text-lg">تصميم فاخر</h3>
+              <p>يجمع بين الأداء والفخامة ويضفي رونقاً على حمامك.</p>
+            </div>
+            <div className="space-y-3 text-center">
+              <img src="https://avatars.mds.yandex.net/i?id=b22d3e7918ef96df31c3e069b0b2d7ffdf9e6a33-10385090-images-thumbs&n=13" alt="تقنية متقدمة" className="rounded-lg shadow mx-auto" />
+              <h3 className="font-semibold text-lg">تقنية متقدمة</h3>
+              <p>ميزات قابلة للتعديل لتجربة آمنة لجميع أفراد الأسرة.</p>
+            </div>
+          </div>
+        </section>
 
-<section id="contact">
-  <h2>Contactez-nous</h2>
-  <p>Email : contact@vebatiment.shop</p>
-  <p>Téléphone : +33 6 05 99 64 90</p>
-  <form class="contact-form">
-    <input type="text" placeholder="Nom">
-    <input type="email" placeholder="Email">
-    <textarea placeholder="Votre message"></textarea>
-    <button type="submit">Envoyer</button>
-  </form>
-</section>
+        {/* How it works */}
+        <section id="how" className="mt-16 p-6 text-center">
+          <h2 className="text-2xl font-semibold text-blue-900">طريقة الاستخدام</h2>
+          <ol className="mt-4 list-decimal list-inside text-blue-700 space-y-2 max-w-md mx-auto text-right">
+            <li>املأ الخزان بالماء الدافئ.</li>
+            <li>اختر مستوى الضغط المناسب.</li>
+            <li>مرّر الرأس على خط اللثة.</li>
+            <li>افرغ الخزان ونظف الرأس بعد الاستخدام.</li>
+          </ol>
+          <div className="mt-6">
+            <img src="https://avatars.mds.yandex.net/i?id=cac6f6dde2b283c076ac4ada3bb88c47fcc30366-12301937-images-thumbs&n=13" alt="تجربة الاستخدام" className="rounded-xl shadow mx-auto" />
+          </div>
+        </section>
 
-<section id="map">
-  <h2>Adresse</h2>
-  <p>66 Avenue du Maréchal Foch, 78130 Les Mureaux, France</p>
-  <iframe src="https://www.google.com/maps?q=66+Avenue+du+Mar%C3%A9chal+Foch,+Les+Mureaux,+France&output=embed" allowfullscreen loading="lazy"></iframe>
-</section>
+        {/* Before & After */}
+        <section className="mt-16 bg-blue-50 rounded-2xl p-8 shadow-inner">
+          <h2 className="text-2xl font-semibold text-blue-900 text-center">النتيجة قبل وبعد الاستخدام</h2>
+          <div className="mt-8 grid md:grid-cols-2 gap-6 items-center">
+            <div className="text-center">
+              <img src="https://avatars.mds.yandex.net/i?id=1e82ea90138261baa66e2079e104854d29b478fc-8223286-images-thumbs&n=13" alt="قبل الاستخدام" className="rounded-lg shadow mx-auto" />
+              <p className="mt-2 text-blue-700 font-semibold">قبل</p>
+            </div>
+            <div className="text-center">
+              <img src="https://avatars.mds.yandex.net/i?id=a77ce945931bb48896187a5c0fa2c5d297f48bc675a9661d-12471733-images-thumbs&n=13" alt="بعد الاستخدام" className="rounded-lg shadow mx-auto" />
+              <p className="mt-2 text-blue-700 font-semibold">بعد</p>
+            </div>
+          </div>
+        </section>
 
-<footer>
-  &copy; 2025 V.E. BATIMENT — Tous droits réservés
-</footer>
+        {/* Order */}
+        <section id="order" className="mt-16 bg-white rounded-2xl p-8 shadow-xl ring-1 ring-blue-100">
+          <h2 className="text-2xl font-semibold text-blue-900">احجز جهازك الآن</h2>
+          <form onSubmit={handleSubmit} className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input name="name" type="text" placeholder="الاسم الكامل" value={form.name} onChange={handleChange} className="p-3 border border-blue-300 rounded-md" />
+            <input name="phone" type="tel" placeholder="رقم الهاتف" value={form.phone} onChange={handleChange} className="p-3 border border-blue-300 rounded-md" />
+            <input name="city" type="text" placeholder="المدينة" value={form.city} onChange={handleChange} className="p-3 border border-blue-300 rounded-md" />
+            <select name="qty" value={form.qty} onChange={handleChange} className="p-3 border border-blue-300 rounded-md">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+            <textarea name="address" placeholder="عنوان التسليم (اختياري)" value={form.address} onChange={handleChange} className="p-3 border border-blue-300 rounded-md md:col-span-2" />
+            <div className="md:col-span-2 flex items-center gap-4">
+              <button type="submit" disabled={submitting} className="px-6 py-3 bg-blue-700 text-white rounded-md shadow-lg hover:bg-blue-800">
+                {submitting ? "جارٍ الإرسال..." : "اطلب الآن"}
+              </button>
+              <a href="tel:+212600000000" className="px-6 py-3 border border-blue-300 rounded-md hover:bg-blue-50 text-blue-700">اتصل للطلب</a>
+            </div>
+          </form>
+        </section>
 
-</body>
-</html>
+        <footer className="mt-16 text-center text-blue-500">© {year} الخيط المائي لتنظيف الأسنان</footer>
+      </main>
+    </div>
+  );
+}
